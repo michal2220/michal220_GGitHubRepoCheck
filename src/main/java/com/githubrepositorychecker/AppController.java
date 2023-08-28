@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -26,21 +25,18 @@ public class AppController {
 
     @GetMapping(value = "repos/{username}")
     public ResponseEntity<?> getUserRepository(@PathVariable String username,
-                                                                 @RequestHeader(value = "Accept") String acceptHeader) throws UserNotFoundException, HttpMediaTypeNotAcceptableException, HeaderNotAcceptableException, HeaderNotAcceptableException {
+                                               @RequestHeader(value = "Accept") String acceptHeader) throws UserNotFoundException, HttpMediaTypeNotAcceptableException, HeaderNotAcceptableException, HeaderNotAcceptableException {
 
         try {
             if (acceptHeader.equals("application/xml")) {
-                throw new HttpMediaTypeNotAcceptableException("Wrong header type, should be JSON, was XML");
+                System.out.println("I'm here");
+                throw new HeaderNotAcceptableException();
             }
 
             List<GitRepository> repositories = apiClient.fetchRepository(username);
             return ResponseEntity.ok(repositories);
-        } catch (HttpMediaTypeNotAcceptableException ex) {
-            ErrorResponse errorResponse = new ErrorResponse(HttpStatus.NOT_ACCEPTABLE.value(), ex.getMessage());
-            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(errorResponse);
 
-        }
-        catch (Exception ex) {
+        } catch (HeaderNotAcceptableException ex) {
             ErrorResponse errorResponse = new ErrorResponse(HttpStatus.NOT_ACCEPTABLE.value(), ex.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(errorResponse);
         }

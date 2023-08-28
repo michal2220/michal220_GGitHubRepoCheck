@@ -1,17 +1,17 @@
 package com.githubrepositorychecker;
 
 import com.githubrepositorychecker.domain.GitRepository;
-import com.githubrepositorychecker.exception.HeaderNotAcceptableException;
 import com.githubrepositorychecker.exception.UserNotFoundException;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
-
-import org.springframework.http.*;
 
 @Component
 public class ApiClient {
@@ -20,7 +20,7 @@ public class ApiClient {
     private final String BASE_URL = "https://api.github.com";
 
 
-    public List<GitRepository> fetchRepository(String username) throws UserNotFoundException, HeaderNotAcceptableException {
+    public List<GitRepository> fetchRepository(String username) throws UserNotFoundException {
         String url = BASE_URL + "/users/" + username + "/repos";
 
         HttpHeaders header = new HttpHeaders();
