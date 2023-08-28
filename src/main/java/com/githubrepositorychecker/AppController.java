@@ -24,10 +24,10 @@ public class AppController {
 
 
     @GetMapping(value = "repos/{username}")
-    public ResponseEntity<?> getUserRepository(@PathVariable String username,
-                                               @RequestHeader(value = "Accept") String acceptHeader) throws UserNotFoundException, HttpMediaTypeNotAcceptableException, HeaderNotAcceptableException, HeaderNotAcceptableException {
+    public ResponseEntity<?> getUserRepository(@PathVariable String username, @RequestHeader(value = "Accept") String acceptHeader) throws UserNotFoundException, HttpMediaTypeNotAcceptableException, HeaderNotAcceptableException, HeaderNotAcceptableException {
 
         try {
+
             if (acceptHeader.equals("application/xml")) {
                 System.out.println("I'm here");
                 throw new HeaderNotAcceptableException();
