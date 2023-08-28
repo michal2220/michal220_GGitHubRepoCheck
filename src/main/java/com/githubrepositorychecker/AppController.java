@@ -29,7 +29,6 @@ public class AppController {
         try {
 
             if (acceptHeader.equals("application/xml")) {
-                System.out.println("I'm here");
                 throw new HeaderNotAcceptableException();
             }
 

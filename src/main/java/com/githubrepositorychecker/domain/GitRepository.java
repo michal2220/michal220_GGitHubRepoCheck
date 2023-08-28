@@ -19,11 +19,13 @@ public class GitRepository {
     public static class Owner {
         @JsonProperty("login")
         private String ownerLogin;
-
     }
 
     @JsonProperty("fork")
     private boolean fork;
+
+    private List<Branch> branches;
+
 
     public GitRepository() {
     }

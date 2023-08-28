@@ -24,15 +24,6 @@ public class ApiClient {
     public List<GitRepository> fetchRepository(String username) throws UserNotFoundException {
         String url = BASE_URL + "/users/" + username + "/repos";
 
-/*        HttpHeaders header = new HttpHeaders();
-        header.set("Accept", "application/json");
-        HttpEntity<String> entity = new HttpEntity<>(header);
-
-        ParameterizedTypeReference<List<GitRepository>> responseType = new ParameterizedTypeReference<>() {
-        };
-        */
-
-
         try {
             GitRepository[] repositories = restTemplate.getForObject(url, GitRepository[].class);
             return Arrays.stream(repositories).toList()
