@@ -25,6 +25,10 @@ public class GitRepository {
         public String getOwnerLogin() {
             return ownerLogin;
         }
+
+        public void setOwnerLogin(String ownerLogin) {
+            this.ownerLogin = ownerLogin;
+        }
     }
 
     @JsonProperty("fork")
