@@ -3,6 +3,8 @@ package com.githubrepositorychecker;
 import com.githubrepositorychecker.domain.Branch;
 import com.githubrepositorychecker.domain.GitRepository;
 import com.githubrepositorychecker.exception.UserNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -20,36 +22,39 @@ import java.util.stream.Collectors;
 public class ApiClient {
 
     private final RestTemplate restTemplate = new RestTemplate();
-    private final String BASE_URL = "https://api.github.com";
+    private final static String GIT_URL = "https://api.github.com";
+    private static final Logger LOGGER = LoggerFactory.getLogger(ApiClient.class);
 
 
     public List<GitRepository> fetchRepository(String username) throws UserNotFoundException {
-        String url = BASE_URL + "/users/" + username + "/repos";
+        String url = GIT_URL + "/users/" + username + "/repos";
 
         try {
             GitRepository[] repositories = restTemplate.getForObject(url, GitRepository[].class);
-            List<GitRepository> resultRepository =  Arrays.stream(repositories).toList()
+            LOGGER.info("Response from API received");
+
+            List<GitRepository> resultRepository = Arrays.stream(repositories).toList()
                     .stream()
                     .filter(p -> !p.isFork())
                     .collect(Collectors.toList());
-            for (GitRepository repository : resultRepository ) {
+
+            for (GitRepository repository : resultRepository) {
                 List<Branch> branches = getBranchesForRepository(repository.getOwnerInfo().getOwnerLogin(), repository.getRepositoryName());
                 repository.setBranches(branches);
             }
             return resultRepository;
 
         } catch (HttpClientErrorException.NotFound e) {
+            LOGGER.warn("No user was found");
             throw new UserNotFoundException();
         }
     }
 
     public List<Branch> getBranchesForRepository(String owner, String repositoryName) {
-        String url = BASE_URL + "/repos/" + owner + "/" + repositoryName + "/branches";
-
+        String url = GIT_URL + "/repos/" + owner + "/" + repositoryName + "/branches";
 
         ResponseEntity<Branch[]> response = restTemplate.getForEntity(url, Branch[].class);
-
-            return Arrays.asList(response.getBody());
-
+        LOGGER.info("Response from API-BRANCHES received");
+        return Arrays.asList(response.getBody());
     }
 }
