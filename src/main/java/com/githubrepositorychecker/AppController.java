@@ -2,6 +2,7 @@ package com.githubrepositorychecker;
 
 
 import com.githubrepositorychecker.domain.GitRepository;
+import com.githubrepositorychecker.exception.ErrorResponse;
 import com.githubrepositorychecker.exception.HeaderNotAcceptableException;
 import com.githubrepositorychecker.exception.UserNotFoundException;
 import org.slf4j.Logger;
@@ -41,7 +42,8 @@ public class AppController {
 
         } catch (HeaderNotAcceptableException ex) {
             LOGGER.warn("Wrong header type");
-            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(ex);
+            ErrorResponse errorResponse = new ErrorResponse(HttpStatus.NOT_ACCEPTABLE.value(), ex.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(errorResponse);
         }
     }
 }
