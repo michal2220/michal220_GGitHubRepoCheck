@@ -46,7 +46,7 @@ public class ApiClient {
         }
     }
 
-    public List<Branch> getBranchesForRepository(String owner, String repositoryName) {
+    private List<Branch> getBranchesForRepository(String owner, String repositoryName) {
         String url = GIT_URL + "/repos/" + owner + "/" + repositoryName + "/branches";
 
         ResponseEntity<Branch[]> response = restTemplate.getForEntity(url, Branch[].class);
