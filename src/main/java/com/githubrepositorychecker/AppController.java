@@ -14,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("app/")
+
 public class AppController {
 
     private final ApiClient apiClient;
@@ -26,7 +27,7 @@ public class AppController {
     }
 
     @GetMapping(value = "repos/{username}")
-    public ResponseEntity<?> getUserRepository(@PathVariable String username, @RequestHeader(value = "Accept") String acceptHeader) throws UserNotFoundException, HeaderNotAcceptableException {
+    public ResponseEntity<List<GitRepository>> getUserRepository(@PathVariable String username, @RequestHeader(value = "Accept") String acceptHeader) throws UserNotFoundException, HeaderNotAcceptableException {
 
             if (acceptHeader.equals("application/xml")) {
                 xmlChecker.checkForXml();
