@@ -12,4 +12,8 @@ public class GitHubRepositoryCheckerApplication {
         SpringApplication.run(GitHubRepositoryCheckerApplication.class, args);
     }
 
+    @Bean
+    public MappingJackson2XmlHttpMessageConverter mappingJackson2XmlHttpMessageConverter() {
+        return new MappingJackson2XmlHttpMessageConverter();
+    }
 }

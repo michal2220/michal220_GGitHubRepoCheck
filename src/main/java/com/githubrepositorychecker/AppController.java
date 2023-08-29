@@ -29,20 +29,21 @@ public class AppController {
     @GetMapping(value = "repos/{username}")
     public ResponseEntity<?> getUserRepository(@PathVariable String username, @RequestHeader(value = "Accept") String acceptHeader) throws UserNotFoundException, HeaderNotAcceptableException {
 
+
         try {
+
 
             if (acceptHeader.equals("application/xml")) {
                 LOGGER.warn("Wrong header was used");
                 throw new HeaderNotAcceptableException();
+
             }
 
             LOGGER.info("Sending request from controller");
             List<GitRepository> repositories = apiClient.fetchRepository(username);
             return ResponseEntity.ok(repositories);
-
         } catch (HeaderNotAcceptableException ex) {
-            LOGGER.warn("Wrong header type");
-            ErrorResponse errorResponse = new ErrorResponse(HttpStatus.NOT_ACCEPTABLE.value(), ex.getMessage());
+            ErrorResponse errorResponse = new ErrorResponse(HttpStatus.NOT_ACCEPTABLE.value(), "Header should be JSON, XML is not supported");
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(errorResponse);
         }
     }
