@@ -1,5 +1,6 @@
 package com.githubrepositorychecker.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,11 +32,10 @@ public class GitRepository {
         }
     }
 
-    @JsonProperty("fork")
+    @JsonIgnore
     private boolean fork;
 
     private List<Branch> branches;
-
 
     public GitRepository() {
     }

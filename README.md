@@ -34,3 +34,4 @@ Where `{username}` needs to be replaced with username of the GitHub user.
 - Spring Boot
 - RestTemplate
 - Gradle
+- Lombok
